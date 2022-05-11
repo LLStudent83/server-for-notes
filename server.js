@@ -15,26 +15,21 @@ let nextId = 1;
 const router = new Router();
 
 router.get('/notes', async (ctx, next) => {
-    console.log('notes из ОТПРАВИТЬ []', notes);
-    ctx.response.body = JSON.stringify(notes);
+    ctx.response.body = notes;
 });
 
 router.post('/notes', async (ctx, next) => {
-    notes.push({...JSON.parse(ctx.request.body), id: nextId++});
+    notes.push({ ...JSON.parse(ctx.request.body), id: nextId++ });
     ctx.response.status = 204;
 });
 
 router.delete('/notes/:id', async (ctx, next) => {
-    console.log('notes из УДАЛИТЬ JSON', ctx.params.id);
-
     const noteId = Number(ctx.params.id);
     const index = notes.findIndex(o => o.id === noteId);
     if (index !== -1) {
         notes.splice(index, 1);
     }
-    ctx.response.body = JSON.stringify(notes); //
-    console.log('ответ из делете', ctx.response.body);
-    // ctx.response.status = 204;
+    ctx.response.body = JSON.stringify(notes);
 });
 
 app.use(router.routes()).use(router.allowedMethods());
