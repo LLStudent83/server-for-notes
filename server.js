@@ -19,7 +19,7 @@ router.get('/notes', async (ctx, next) => {
 });
 
 router.post('/notes', async (ctx, next) => {
-    notes.push({ ...JSON.parse(ctx.request.body), id: nextId++ });
+    notes.push({ ...ctx.request.body, id: nextId++ }); // JSON.parse(ctx.request.body)
     ctx.response.status = 204;
 });
 
@@ -29,7 +29,7 @@ router.delete('/notes/:id', async (ctx, next) => {
     if (index !== -1) {
         notes.splice(index, 1);
     }
-    ctx.response.body = JSON.stringify(notes);
+    ctx.response.body = notes;
 });
 
 app.use(router.routes()).use(router.allowedMethods());
